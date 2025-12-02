@@ -1,0 +1,18 @@
+.page.star-gate #page-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+.page.star-track #page-header {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+}
+.page.star-domain #page-header {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+}
+.page.star-sign #page-header {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important;
+}
+.page.star-shadow #page-header {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;
+}
+.page.star-soul #page-header {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6ff 100%) !important;
+}
