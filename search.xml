@@ -26,146 +26,11 @@
 ]]></content>
       <categories>
         <category>话题讨论</category>
-        <category>交通安全</category>
-        <category>社会观察</category>
       </categories>
       <tags>
         <tag>小电驴闯红灯</tag>
         <tag>交通安全</tag>
-        <tag>电动车骑行</tag>
-        <tag>交通心理</tag>
-        <tag>红灯违章</tag>
         <tag>社会现象</tag>
-        <tag>安全意识</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git常用命令及使用指南：从配置到分支管理，程序员必备的版本控制教程</title>
-    <url>/2025/11/22/master-git-commands/</url>
-    <content><![CDATA[<h1 id="Git-简介"><a href="#Git-简介" class="headerlink" title="Git 简介"></a>Git 简介</h1><p>Git 相信大家并不陌生，它是目前<strong>全球最流行的分布式版本控制系统</strong>，由 Linux 内核创始人林纳斯・托瓦兹（Linus Torvalds）于 2005 年开发，最初用于管理 Linux 内核的代码开发，如今已成为软件开发、团队协作中不可或缺的工具。它的核心作用有以下几个，但并不限于这几个：</p>
-<ul>
-<li>追踪文件的修改历史</li>
-<li>协调多人协作开发</li>
-<li>回滚错误版本</li>
-<li>管理代码分支</li>
-</ul>
-<p>Git 并不是开发的专属，你也可以用它来管理你的写作，用它来追踪你的作品各个版本或历史修改记录; 可以说，很多领域，它都可以帮上你的忙。</p>
-<p>Git 可视化工具，我主要使用<strong>命令行工具</strong> + <a href="https://www.sourcetreeapp.com/">Sourcetree</a>(支持 macOS , windows)。很多 Windows 用户喜欢用 <a href="https://tortoisegit.org/download/">TortoiseGit</a>.</p>
-<h1 id="Git配置"><a href="#Git配置" class="headerlink" title="Git配置"></a>Git配置</h1><p>在开始Git之旅之前，我们需要设置一下Git的配置变量，这是一次性的工作。这些设置会在用户文件(用户主目录的.gitconfig)或系统文件(eg. &#x2F;etc&#x2F;gitconfig) 中做永久的记录。</p>
-<h2 id="配置用户信息"><a href="#配置用户信息" class="headerlink" title="配置用户信息"></a>配置用户信息</h2><p>Git 的配置采用<strong>分层级</strong>的设计，从大到小分为<strong>系统级（system）</strong>、<strong>全局级（global）</strong>、<strong>本地级（local）</strong>，层级越细优先级越高（本地 &gt; 全局 &gt; 系统）。<code>git config -l</code> 则是查看<strong>所有生效的配置</strong>（合并三层配置后的结果）。</p>
-<ul>
-<li><strong>–system</strong> 会将配置写入系统级 Git 配置文件，作用域是整个操作系统的所有用户和所有 Git 仓库</li>
-<li><strong>–global</strong> 会将配置写入当前用户的全局配置文件，作用域是当前登录用户的所有 Git 仓库。这是最常用的配置层级</li>
-<li><strong>–local</strong> 本地配置文件（仓库下的 <code>.git/config</code>）属于当前用户的项目文件</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">配置全局用户信息：设置好这个后，每次你提交修改内容时，都可以看到这个修改是谁提交的</span></span><br><span class="line">git config --global user.name &quot;LanKonyue&quot;</span><br><span class="line">git config --global user.email your_email@example.com</span><br></pre></td></tr></table></figure>
-
-<p><strong>查看配置信息</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config -l  </span><br><span class="line">git config --system --list</span><br><span class="line">git config --global --list</span><br><span class="line">git config --local --list</span><br></pre></td></tr></table></figure>
-
-<h2 id="设置命令别名"><a href="#设置命令别名" class="headerlink" title="设置命令别名"></a>设置命令别名</h2><p>以给Git命令设置别名，这样命令就可以用别名代替了。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global alias.st status</span><br><span class="line">git config --global alias.ci commit</span><br><span class="line">git config --global alias.co checkout</span><br><span class="line">git config --global alias.br branch</span><br><span class="line">git config --global alias.cp cherry-pick</span><br></pre></td></tr></table></figure>
-
-<h2 id="开启命令终端的颜色显示"><a href="#开启命令终端的颜色显示" class="headerlink" title="开启命令终端的颜色显示"></a>开启命令终端的颜色显示</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global color.ui true</span><br></pre></td></tr></table></figure>
-
-<h2 id="编辑-Config"><a href="#编辑-Config" class="headerlink" title="编辑 Config"></a>编辑 Config</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编辑 .git/config 文件</span></span><br><span class="line">git config -e</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编辑 .gitconfig 文件</span></span><br><span class="line">git config -e --global</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编辑 etc/gitconfig 文件</span></span><br><span class="line">git config -e --system</span><br></pre></td></tr></table></figure>
-
-<h2 id="关闭-SSL-认证"><a href="#关闭-SSL-认证" class="headerlink" title="关闭 SSL 认证"></a>关闭 SSL 认证</h2><p>添加私有仓库可能出现这个问题，可以用以下命令来解决：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.sslVerify false</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="Git-仓库"><a href="#Git-仓库" class="headerlink" title="Git 仓库"></a>Git 仓库</h1><h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><h3 id="克隆仓库到本地"><a href="#克隆仓库到本地" class="headerlink" title="克隆仓库到本地"></a>克隆仓库到本地</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone git@github.com:ReactiveX/RxSwift.git</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看远程仓库地址"><a href="#查看远程仓库地址" class="headerlink" title="查看远程仓库地址"></a>查看远程仓库地址</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
-
-<h3 id="更改Git远程仓库"><a href="#更改Git远程仓库" class="headerlink" title="更改Git远程仓库"></a>更改Git远程仓库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote set-url origin git@github.com:ReactiveX/RxSwift.git</span><br></pre></td></tr></table></figure>
-
-<h3 id="添加远程仓库"><a href="#添加远程仓库" class="headerlink" title="添加远程仓库"></a>添加远程仓库</h3><p>我们可以给本地仓库绑定多个远程仓库，这样可以把修改推送到多个远程仓库</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add gitee git@gitee.com:ReactiveX/RxSwift.git</span><br><span class="line">git push origin</span><br><span class="line">git push gitee</span><br></pre></td></tr></table></figure>
-
-<h3 id="将本地仓库推送到远程空仓库"><a href="#将本地仓库推送到远程空仓库" class="headerlink" title="将本地仓库推送到远程空仓库"></a>将本地仓库推送到远程空仓库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin git@github.com:evanxlh/BluetoothCentral.git</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-
-<h2 id="Git-子模块-子仓库"><a href="#Git-子模块-子仓库" class="headerlink" title="Git 子模块(子仓库)"></a>Git 子模块(子仓库)</h2><h3 id="添加-Submodule"><a href="#添加-Submodule" class="headerlink" title="添加 Submodule"></a>添加 Submodule</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在主仓库根目录中执行</span></span><br><span class="line">git submodule add git://github.com:xxx/project.git deps/mysql</span><br></pre></td></tr></table></figure>
-
-<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在主仓库根目录中执行，初始化子仓库</span></span><br><span class="line">git submodule init</span><br></pre></td></tr></table></figure>
-
-<h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在主仓库根目录中执行: 自动 <span class="built_in">clone</span> 子仓库到本地</span></span><br><span class="line">git submodule update </span><br><span class="line">git submodule update  --init --recursive</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或者 <span class="built_in">clone</span> 子仓库到对应的目录中</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">git <span class="built_in">clone</span> git@github.com:xxx/pod-project.git --recursive</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="Git分支"><a href="#Git分支" class="headerlink" title="Git分支"></a>Git分支</h1><h2 id="列出分支"><a href="#列出分支" class="headerlink" title="列出分支"></a>列出分支</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列出所有本地分支</span></span><br><span class="line">git branch</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列出远程本地分支</span></span><br><span class="line">git branch -r</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列出远程分支和标签</span></span><br><span class="line">git ls-remote</span><br></pre></td></tr></table></figure>
-
-<h2 id="分支创建与切换"><a href="#分支创建与切换" class="headerlink" title="分支创建与切换"></a>分支创建与切换</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建 `hotfix` 分支</span></span><br><span class="line">git branch hotfix</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建并切换分支</span>       </span><br><span class="line">git checkout -b hotfix</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切换到已有的`hotfix`分支</span></span><br><span class="line">git checkout hotfix</span><br></pre></td></tr></table></figure>
-
-<h2 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除本地分支</span></span><br><span class="line">git branch -D hotfix </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除远程hotfix分支</span></span><br><span class="line">git push origin --delete hotfix</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重命名当前分支</span></span><br><span class="line">git branch -M bugfix</span><br></pre></td></tr></table></figure>
-
-<h2 id="跟踪远程分支"><a href="#跟踪远程分支" class="headerlink" title="跟踪远程分支"></a>跟踪远程分支</h2><p>跟踪远程分支，就可以在<code>当前分支</code>上直接使用 git push, git fetch, git pull 了。有以下几种方式：</p>
-<h3 id="通过命令来跟踪"><a href="#通过命令来跟踪" class="headerlink" title="通过命令来跟踪"></a>通过命令来跟踪</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">方法1：</span></span><br><span class="line">git checkout --track origin/branch_name</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">方法2:</span> </span><br><span class="line">git push --set-upstream origin develop</span><br></pre></td></tr></table></figure>
-
-<h3 id="直接修改-config-文件"><a href="#直接修改-config-文件" class="headerlink" title="直接修改 config 文件"></a>直接修改 config 文件</h3><p>你可以使用命令<code>git config -e</code>，直接在命令终端中进行编辑 config 文件，也可以直接打开仓库 <code>.git/config</code> 文件进行修改。添加以下内容即可跟踪远程分支：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[branch &quot;branch_name&quot;]</span><br><span class="line">  remote = origin</span><br><span class="line">  merge = refs/heads/branch_name</span><br></pre></td></tr></table></figure>
-
-<h2 id="分支合并"><a href="#分支合并" class="headerlink" title="分支合并"></a>分支合并</h2><p>当我们想把自己的分支修改合并到远程分支，我们就要进行分支合并了。分支代码合并有 <em>git rebase</em> ，<em>git merge</em> 2种方式。</p>
-<p>接下来我们结合实例来说明它们各自的合并流程，假如我们要将自己的工作分支 <code>personal/bugfix</code> 的修改合并到 <code>develop</code> 分支，并推送到远程 <code>develop</code> 分支：</p>
-<h3 id="git-rebase"><a href="#git-rebase" class="headerlink" title="git rebase"></a>git rebase</h3><p><em>rebase</em> 能够按代码提交的时间顺序在目标分支上进行重演，就算合并产生冲突也能完好的保留历史结点。它的流程为：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step1: 我们的工作分支是 personal/bugfix, 所以先切换到 develop 分支</span></span><br><span class="line">git checkout develop</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step2: 拉取远程代码，与服务器同步</span></span><br><span class="line">git pull</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step 3: 切换回工作分支 bugix</span></span><br><span class="line">git checkout personal/bugfix</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step4: 将自己的工作分支的commits rebase 到 develop分支.</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果 rebase 过程中，有冲突，就解决冲突，然后使用 `git rebase --<span class="built_in">continue</span>` 完成合并</span></span><br><span class="line">git rebase develop</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step5: 切换回 develop 分支</span></span><br><span class="line">git checkout develop</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step6: 将 personal/bugfix 合入 develop</span></span><br><span class="line">git merge personal/bugfix</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step7: 将 develop 推送到远程 develop 分支</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
-
-<p><strong>以上过程是不是步骤很多，我们也可以使用让其简单一点，可以达到同样的目的：</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">当前的工作分支是 personal/bugfix，我们直接使用以下命令直接完成:</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">拉取远程 develop 分支并完成 rebase 操作</span></span><br><span class="line">git pull --rebase origin develop</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
-
-<h3 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h3><p>如果不是 <em>fast forward</em> 时，<em>git merge</em> 会自动额外的一个 <em>merge commit</em>。尤其在有冲突的情况下，会把它人的 commits 合成一个 <em>merge commit</em> 。所以在非  <em>fast forward</em> 合并时，强烈推荐使用 <em>git rebase</em> 。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step1: 我们的工作分支是 bugfix, 所以先切换到 develop 分支</span></span><br><span class="line">git checkout develop</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step2: 拉取远程代码，与服务器同步</span></span><br><span class="line">git pull</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step 3: 将 personal/bugfix 合入 develop 分支</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果 merge 过程中，有冲突，就解决冲突，然后使用 `git merge --<span class="built_in">continue</span>` 完成合并</span></span><br><span class="line">git merge personal/bugfix</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step4: 将 develop 推送到远程 develop 分支</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
-
-<h2 id="Git-标签"><a href="#Git-标签" class="headerlink" title="Git 标签"></a>Git 标签</h2><h3 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h3><p>基于当前分支来创建标签，常用的有 2 种格式：<code>轻量标签(lightweight tag)</code> 与 <code>附注标签(annotated tag)</code>.</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">git tag &lt;标签名&gt;</span></span><br><span class="line">git tag v1.0.0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">git tag -a &lt;标签名&gt; -m <span class="string">&quot;标签的备注说明/版本描述&quot;</span></span></span><br><span class="line">git tag -a v2.0.0 -m &quot;正式发布2.0版本，新增支付功能+用户中心重构&quot;</span><br></pre></td></tr></table></figure>
-
-<h3 id="推送-tag"><a href="#推送-tag" class="headerlink" title="推送 tag"></a>推送 tag</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将本地指定 tag 推送到服务器</span></span><br><span class="line">git push origin v1.0.0 </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将本地所有 tags 推送到服务器</span></span><br><span class="line">git push --tags </span><br></pre></td></tr></table></figure>
-
-<h3 id="删除-tag"><a href="#删除-tag" class="headerlink" title="删除 tag"></a>删除 tag</h3><p>删除 tag 操作，跟删除分支的操作很像：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除本地tag</span></span><br><span class="line">git tag -d v1.0.0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除远程 tag</span></span><br><span class="line">git push origin --delete v2.0.0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除本地所有tags，保持跟服务tag一致</span></span><br><span class="line">git fetch origin --prune --tags</span><br></pre></td></tr></table></figure>
-
-<h3 id="列出本地-tag"><a href="#列出本地-tag" class="headerlink" title="列出本地 tag"></a>列出本地 tag</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git tag -l</span><br></pre></td></tr></table></figure>
-
-<h1 id="代码修改及提交"><a href="#代码修改及提交" class="headerlink" title="代码修改及提交"></a>代码修改及提交</h1><h2 id="忽略不想要提交的文件"><a href="#忽略不想要提交的文件" class="headerlink" title="忽略不想要提交的文件"></a>忽略不想要提交的文件</h2><p>想要忽略某些文件或文件夹，我们可以在仓库根目录中添加 <code>.gitignore</code> 文件，可以通过 <code>vim</code> 在命令终端直接编辑: <code>vim .gitignore</code>，也可以使用其它文本编辑器来编辑。<br>比如我想忽略以下内容, 只需把它们复制到 .gitignore 文件中即可。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line">db.json</span><br><span class="line">*.log</span><br><span class="line">node_modules/</span><br><span class="line">public/</span><br><span class="line">.deploy*/</span><br><span class="line">_multiconfig.yml</span><br></pre></td></tr></table></figure>
-
-<p>修改好 <code>.gitignore</code> 文件后，使用以下命令将它提交到仓库中：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">提交 .gitignore</span></span><br><span class="line">git add .gitignore</span><br><span class="line">git commit -m &quot;Add .gitignore&quot;</span><br></pre></td></tr></table></figure>
-
-<h2 id="将代码加入-git-跟踪管理"><a href="#将代码加入-git-跟踪管理" class="headerlink" title="将代码加入 git 跟踪管理"></a>将代码加入 git 跟踪管理</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将指定文件加入到修改跟踪区(可以是单个或多个文件)</span></span><br><span class="line">git add file1 file2</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将所有文件加入到修改跟踪区</span></span><br><span class="line">git add .</span><br></pre></td></tr></table></figure>
-<h2 id="提交本地修改"><a href="#提交本地修改" class="headerlink" title="提交本地修改"></a>提交本地修改</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">提交 git 修改跟踪区里的内容</span></span><br><span class="line">git commit -m &quot;human readable comment&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">直接将本地所有的修改添加到跟踪区，并提交</span></span><br><span class="line">git commit -a -m &quot;human readable comment&quot;</span><br></pre></td></tr></table></figure>
-
-<h2 id="暂存修改的代码"><a href="#暂存修改的代码" class="headerlink" title="暂存修改的代码"></a>暂存修改的代码</h2><p>Git 也为我们提供了一个很好用的功能：暂存还未提交的代码，下面是一些常用操作：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将当前的修改保存到Git栈中，备份当前的工作区内容</span></span><br><span class="line">git stash</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从Git栈中读取最近一次保存的内容，并且恢复工作区的相关内容</span></span><br><span class="line">git stash pop</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">显示Git栈中所有的备份</span></span><br><span class="line">git stash list</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清空Git栈中所有备份</span></span><br><span class="line">git stash clear</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">取出版本号为`stash@&#123;1&#125;`的暂存内容，但并未将此记录从Git栈中清除</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">版本号从 `git stash list` 中得到</span></span><br><span class="line">git stash apply stash@&#123;1&#125; </span><br></pre></td></tr></table></figure>
-
-<h1 id="Git-Patch"><a href="#Git-Patch" class="headerlink" title="Git Patch"></a>Git Patch</h1><p>详情可参考这里：<a href="https://baijiahao.baidu.com/s?id=1627219440390872098&wfr=spider&for=pc">Git命令解析-patch、apply、diff</a> 。</p>
-<h2 id="创建-Patch"><a href="#创建-Patch" class="headerlink" title="创建 Patch"></a>创建 Patch</h2><p>创建好的 patch 会保存在你的当前工作目录下。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成最近的1次commit的patch</span></span><br><span class="line">git format-patch HEAD^</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成最近的2次commit的patch</span></span><br><span class="line"> git format-patch HEAD^^</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成最近的3次commit的patch</span></span><br><span class="line">git format-patch HEAD^^^</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成最近的4次commit的patch</span></span><br><span class="line">git format-patch HEAD^^^^</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成两个commit间的修改的patch (包含两个commit. &lt;r1&gt;和&lt;r2&gt;都是具体的commit号)</span></span><br><span class="line">git format-patch &lt;r1&gt;..&lt;r2&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成单个commit的patch</span></span><br><span class="line">git format-patch -1 &lt;r1&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成某commit之后的所有修改patch（不包含该commit）</span></span><br><span class="line">git format-patch &lt;r1&gt; </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成从根到r1提交的所有patch</span></span><br><span class="line">git format-patch --root &lt;r1&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="应用-Patch"><a href="#应用-Patch" class="headerlink" title="应用 Patch"></a>应用 Patch</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git apply 0001-Add-rspec-to-gemfile.patch</span><br></pre></td></tr></table></figure>
-
-<h1 id="代码恢复"><a href="#代码恢复" class="headerlink" title="代码恢复"></a>代码恢复</h1><p>Git 恢复的核心逻辑：所有已经执行过 git commit 的代码 &#x2F; 版本，永远不会丢，100% 能恢复；未提交的代码，（工作区 &#x2F; 暂存区）也能恢复，只是命令不同。</p>
-<p><em>reflog</em> 是 git 提供的一个内部工具，用于记录对git仓库进行的各种操作。当你想恢复代码时，它可以派上大用场。</p>
-<p>代码恢复常用的一些命令如下 ：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">恢复工作区单个文件（未add）</span></span><br><span class="line">git checkout -- 文件名</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">恢复工作区所有文件（未add）</span></span><br><span class="line">git checkout .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">撤回暂存区单个文件</span></span><br><span class="line">git reset HEAD 文件名</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">撤回暂存区所有文件</span></span><br><span class="line">git reset HEAD .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">找回所有操作记录，获取commit-id（万能）</span></span><br><span class="line">git reflog</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">撤销最近一次commit，保留代码（最安全）</span></span><br><span class="line">git reset --soft HEAD^</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">直接重置到某个 commit-id</span></span><br><span class="line">git reset --hard commit-id</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">恢复被删文件（已追踪）</span></span><br><span class="line">git checkout HEAD -- 文件名</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">恢复被删分支/历史版本</span></span><br><span class="line">git checkout -b 分支名 commit-id</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">恢复被删的Tag（本地）</span></span><br><span class="line">git tag -a 标签名 commit-id -m &quot;备注&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">恢复被删的Tag（推送到远程）</span></span><br><span class="line">git push origin 标签名</span><br></pre></td></tr></table></figure>
-
-<h1 id="成功的-Git-分支模型"><a href="#成功的-Git-分支模型" class="headerlink" title="成功的 Git 分支模型"></a>成功的 Git 分支模型</h1><p>如果你还在探索如何高效的利用分支开发时，这里我强烈推荐下以下两篇文章：</p>
-<p><a href="https://nvie.com/posts/a-successful-git-branching-model/">A successful Git branching model</a></p>
-<p><a href="https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow">Git Feature Branch Workflow</a></p>
-<h1 id="意外发现"><a href="#意外发现" class="headerlink" title="意外发现"></a>意外发现</h1><p>即将发布本文时，意外发现个 <a href="https://github.com/521xueweihan/git-tips">Git的奇技淫巧</a> ，英文版请点这里：<a href="https://github.com/git-tips/tips">Git Tips</a>。</p>
-]]></content>
-      <categories>
-        <category>通用编程</category>
-        <category>编程工具</category>
-        <category>版本控制</category>
-      </categories>
-      <tags>
-        <tag>Git教程</tag>
-        <tag>版本控制</tag>
-        <tag>代码管理</tag>
-        <tag>Git命令</tag>
-        <tag>分支管理</tag>
-        <tag>程序员工具</tag>
-        <tag>Git配置</tag>
-        <tag>Git Commands</tag>
       </tags>
   </entry>
   <entry>
@@ -292,6 +157,133 @@
       </tags>
   </entry>
   <entry>
+    <title>Git常用命令及使用指南：从配置到分支管理，程序员必备的版本控制教程</title>
+    <url>/2025/11/22/master-git-commands/</url>
+    <content><![CDATA[<h1 id="Git-简介"><a href="#Git-简介" class="headerlink" title="Git 简介"></a>Git 简介</h1><p>Git 相信大家并不陌生，它是目前<strong>全球最流行的分布式版本控制系统</strong>，由 Linux 内核创始人林纳斯・托瓦兹（Linus Torvalds）于 2005 年开发，最初用于管理 Linux 内核的代码开发，如今已成为软件开发、团队协作中不可或缺的工具。它的核心作用有以下几个，但并不限于这几个：</p>
+<ul>
+<li>追踪文件的修改历史</li>
+<li>协调多人协作开发</li>
+<li>回滚错误版本</li>
+<li>管理代码分支</li>
+</ul>
+<p>Git 并不是开发的专属，你也可以用它来管理你的写作，用它来追踪你的作品各个版本或历史修改记录; 可以说，很多领域，它都可以帮上你的忙。</p>
+<p>Git 可视化工具，我主要使用<strong>命令行工具</strong> + <a href="https://www.sourcetreeapp.com/">Sourcetree</a>(支持 macOS , windows)。很多 Windows 用户喜欢用 <a href="https://tortoisegit.org/download/">TortoiseGit</a>.</p>
+<h1 id="Git配置"><a href="#Git配置" class="headerlink" title="Git配置"></a>Git配置</h1><p>在开始Git之旅之前，我们需要设置一下Git的配置变量，这是一次性的工作。这些设置会在用户文件(用户主目录的.gitconfig)或系统文件(eg. &#x2F;etc&#x2F;gitconfig) 中做永久的记录。</p>
+<h2 id="配置用户信息"><a href="#配置用户信息" class="headerlink" title="配置用户信息"></a>配置用户信息</h2><p>Git 的配置采用<strong>分层级</strong>的设计，从大到小分为<strong>系统级（system）</strong>、<strong>全局级（global）</strong>、<strong>本地级（local）</strong>，层级越细优先级越高（本地 &gt; 全局 &gt; 系统）。<code>git config -l</code> 则是查看<strong>所有生效的配置</strong>（合并三层配置后的结果）。</p>
+<ul>
+<li><strong>–system</strong> 会将配置写入系统级 Git 配置文件，作用域是整个操作系统的所有用户和所有 Git 仓库</li>
+<li><strong>–global</strong> 会将配置写入当前用户的全局配置文件，作用域是当前登录用户的所有 Git 仓库。这是最常用的配置层级</li>
+<li><strong>–local</strong> 本地配置文件（仓库下的 <code>.git/config</code>）属于当前用户的项目文件</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">配置全局用户信息：设置好这个后，每次你提交修改内容时，都可以看到这个修改是谁提交的</span></span><br><span class="line">git config --global user.name &quot;LanKonyue&quot;</span><br><span class="line">git config --global user.email your_email@example.com</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看配置信息</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config -l  </span><br><span class="line">git config --system --list</span><br><span class="line">git config --global --list</span><br><span class="line">git config --local --list</span><br></pre></td></tr></table></figure>
+
+<h2 id="设置命令别名"><a href="#设置命令别名" class="headerlink" title="设置命令别名"></a>设置命令别名</h2><p>以给Git命令设置别名，这样命令就可以用别名代替了。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global alias.st status</span><br><span class="line">git config --global alias.ci commit</span><br><span class="line">git config --global alias.co checkout</span><br><span class="line">git config --global alias.br branch</span><br><span class="line">git config --global alias.cp cherry-pick</span><br></pre></td></tr></table></figure>
+
+<h2 id="开启命令终端的颜色显示"><a href="#开启命令终端的颜色显示" class="headerlink" title="开启命令终端的颜色显示"></a>开启命令终端的颜色显示</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global color.ui true</span><br></pre></td></tr></table></figure>
+
+<h2 id="编辑-Config"><a href="#编辑-Config" class="headerlink" title="编辑 Config"></a>编辑 Config</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编辑 .git/config 文件</span></span><br><span class="line">git config -e</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编辑 .gitconfig 文件</span></span><br><span class="line">git config -e --global</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编辑 etc/gitconfig 文件</span></span><br><span class="line">git config -e --system</span><br></pre></td></tr></table></figure>
+
+<h2 id="关闭-SSL-认证"><a href="#关闭-SSL-认证" class="headerlink" title="关闭 SSL 认证"></a>关闭 SSL 认证</h2><p>添加私有仓库可能出现这个问题，可以用以下命令来解决：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.sslVerify false</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="Git-仓库"><a href="#Git-仓库" class="headerlink" title="Git 仓库"></a>Git 仓库</h1><h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><h3 id="克隆仓库到本地"><a href="#克隆仓库到本地" class="headerlink" title="克隆仓库到本地"></a>克隆仓库到本地</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone git@github.com:ReactiveX/RxSwift.git</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看远程仓库地址"><a href="#查看远程仓库地址" class="headerlink" title="查看远程仓库地址"></a>查看远程仓库地址</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+
+<h3 id="更改Git远程仓库"><a href="#更改Git远程仓库" class="headerlink" title="更改Git远程仓库"></a>更改Git远程仓库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote set-url origin git@github.com:ReactiveX/RxSwift.git</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加远程仓库"><a href="#添加远程仓库" class="headerlink" title="添加远程仓库"></a>添加远程仓库</h3><p>我们可以给本地仓库绑定多个远程仓库，这样可以把修改推送到多个远程仓库</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add gitee git@gitee.com:ReactiveX/RxSwift.git</span><br><span class="line">git push origin</span><br><span class="line">git push gitee</span><br></pre></td></tr></table></figure>
+
+<h3 id="将本地仓库推送到远程空仓库"><a href="#将本地仓库推送到远程空仓库" class="headerlink" title="将本地仓库推送到远程空仓库"></a>将本地仓库推送到远程空仓库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add origin git@github.com:evanxlh/BluetoothCentral.git</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+
+<h2 id="Git-子模块-子仓库"><a href="#Git-子模块-子仓库" class="headerlink" title="Git 子模块(子仓库)"></a>Git 子模块(子仓库)</h2><h3 id="添加-Submodule"><a href="#添加-Submodule" class="headerlink" title="添加 Submodule"></a>添加 Submodule</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在主仓库根目录中执行</span></span><br><span class="line">git submodule add git://github.com:xxx/project.git deps/mysql</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在主仓库根目录中执行，初始化子仓库</span></span><br><span class="line">git submodule init</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在主仓库根目录中执行: 自动 <span class="built_in">clone</span> 子仓库到本地</span></span><br><span class="line">git submodule update </span><br><span class="line">git submodule update  --init --recursive</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或者 <span class="built_in">clone</span> 子仓库到对应的目录中</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">git <span class="built_in">clone</span> git@github.com:xxx/pod-project.git --recursive</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Git分支"><a href="#Git分支" class="headerlink" title="Git分支"></a>Git分支</h1><h2 id="列出分支"><a href="#列出分支" class="headerlink" title="列出分支"></a>列出分支</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列出所有本地分支</span></span><br><span class="line">git branch</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列出远程本地分支</span></span><br><span class="line">git branch -r</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列出远程分支和标签</span></span><br><span class="line">git ls-remote</span><br></pre></td></tr></table></figure>
+
+<h2 id="分支创建与切换"><a href="#分支创建与切换" class="headerlink" title="分支创建与切换"></a>分支创建与切换</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建 `hotfix` 分支</span></span><br><span class="line">git branch hotfix</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建并切换分支</span>       </span><br><span class="line">git checkout -b hotfix</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切换到已有的`hotfix`分支</span></span><br><span class="line">git checkout hotfix</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除本地分支</span></span><br><span class="line">git branch -D hotfix </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除远程hotfix分支</span></span><br><span class="line">git push origin --delete hotfix</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重命名当前分支</span></span><br><span class="line">git branch -M bugfix</span><br></pre></td></tr></table></figure>
+
+<h2 id="跟踪远程分支"><a href="#跟踪远程分支" class="headerlink" title="跟踪远程分支"></a>跟踪远程分支</h2><p>跟踪远程分支，就可以在<code>当前分支</code>上直接使用 git push, git fetch, git pull 了。有以下几种方式：</p>
+<h3 id="通过命令来跟踪"><a href="#通过命令来跟踪" class="headerlink" title="通过命令来跟踪"></a>通过命令来跟踪</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">方法1：</span></span><br><span class="line">git checkout --track origin/branch_name</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">方法2:</span> </span><br><span class="line">git push --set-upstream origin develop</span><br></pre></td></tr></table></figure>
+
+<h3 id="直接修改-config-文件"><a href="#直接修改-config-文件" class="headerlink" title="直接修改 config 文件"></a>直接修改 config 文件</h3><p>你可以使用命令<code>git config -e</code>，直接在命令终端中进行编辑 config 文件，也可以直接打开仓库 <code>.git/config</code> 文件进行修改。添加以下内容即可跟踪远程分支：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[branch &quot;branch_name&quot;]</span><br><span class="line">  remote = origin</span><br><span class="line">  merge = refs/heads/branch_name</span><br></pre></td></tr></table></figure>
+
+<h2 id="分支合并"><a href="#分支合并" class="headerlink" title="分支合并"></a>分支合并</h2><p>当我们想把自己的分支修改合并到远程分支，我们就要进行分支合并了。分支代码合并有 <em>git rebase</em> ，<em>git merge</em> 2种方式。</p>
+<p>接下来我们结合实例来说明它们各自的合并流程，假如我们要将自己的工作分支 <code>personal/bugfix</code> 的修改合并到 <code>develop</code> 分支，并推送到远程 <code>develop</code> 分支：</p>
+<h3 id="git-rebase"><a href="#git-rebase" class="headerlink" title="git rebase"></a>git rebase</h3><p><em>rebase</em> 能够按代码提交的时间顺序在目标分支上进行重演，就算合并产生冲突也能完好的保留历史结点。它的流程为：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step1: 我们的工作分支是 personal/bugfix, 所以先切换到 develop 分支</span></span><br><span class="line">git checkout develop</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step2: 拉取远程代码，与服务器同步</span></span><br><span class="line">git pull</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step 3: 切换回工作分支 bugix</span></span><br><span class="line">git checkout personal/bugfix</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step4: 将自己的工作分支的commits rebase 到 develop分支.</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果 rebase 过程中，有冲突，就解决冲突，然后使用 `git rebase --<span class="built_in">continue</span>` 完成合并</span></span><br><span class="line">git rebase develop</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step5: 切换回 develop 分支</span></span><br><span class="line">git checkout develop</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step6: 将 personal/bugfix 合入 develop</span></span><br><span class="line">git merge personal/bugfix</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step7: 将 develop 推送到远程 develop 分支</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<p><strong>以上过程是不是步骤很多，我们也可以使用让其简单一点，可以达到同样的目的：</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">当前的工作分支是 personal/bugfix，我们直接使用以下命令直接完成:</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">拉取远程 develop 分支并完成 rebase 操作</span></span><br><span class="line">git pull --rebase origin develop</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<h3 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h3><p>如果不是 <em>fast forward</em> 时，<em>git merge</em> 会自动额外的一个 <em>merge commit</em>。尤其在有冲突的情况下，会把它人的 commits 合成一个 <em>merge commit</em> 。所以在非  <em>fast forward</em> 合并时，强烈推荐使用 <em>git rebase</em> 。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step1: 我们的工作分支是 bugfix, 所以先切换到 develop 分支</span></span><br><span class="line">git checkout develop</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step2: 拉取远程代码，与服务器同步</span></span><br><span class="line">git pull</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step 3: 将 personal/bugfix 合入 develop 分支</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果 merge 过程中，有冲突，就解决冲突，然后使用 `git merge --<span class="built_in">continue</span>` 完成合并</span></span><br><span class="line">git merge personal/bugfix</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Step4: 将 develop 推送到远程 develop 分支</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<h2 id="Git-标签"><a href="#Git-标签" class="headerlink" title="Git 标签"></a>Git 标签</h2><h3 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h3><p>基于当前分支来创建标签，常用的有 2 种格式：<code>轻量标签(lightweight tag)</code> 与 <code>附注标签(annotated tag)</code>.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">git tag &lt;标签名&gt;</span></span><br><span class="line">git tag v1.0.0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">git tag -a &lt;标签名&gt; -m <span class="string">&quot;标签的备注说明/版本描述&quot;</span></span></span><br><span class="line">git tag -a v2.0.0 -m &quot;正式发布2.0版本，新增支付功能+用户中心重构&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="推送-tag"><a href="#推送-tag" class="headerlink" title="推送 tag"></a>推送 tag</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将本地指定 tag 推送到服务器</span></span><br><span class="line">git push origin v1.0.0 </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将本地所有 tags 推送到服务器</span></span><br><span class="line">git push --tags </span><br></pre></td></tr></table></figure>
+
+<h3 id="删除-tag"><a href="#删除-tag" class="headerlink" title="删除 tag"></a>删除 tag</h3><p>删除 tag 操作，跟删除分支的操作很像：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除本地tag</span></span><br><span class="line">git tag -d v1.0.0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除远程 tag</span></span><br><span class="line">git push origin --delete v2.0.0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除本地所有tags，保持跟服务tag一致</span></span><br><span class="line">git fetch origin --prune --tags</span><br></pre></td></tr></table></figure>
+
+<h3 id="列出本地-tag"><a href="#列出本地-tag" class="headerlink" title="列出本地 tag"></a>列出本地 tag</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git tag -l</span><br></pre></td></tr></table></figure>
+
+<h1 id="代码修改及提交"><a href="#代码修改及提交" class="headerlink" title="代码修改及提交"></a>代码修改及提交</h1><h2 id="忽略不想要提交的文件"><a href="#忽略不想要提交的文件" class="headerlink" title="忽略不想要提交的文件"></a>忽略不想要提交的文件</h2><p>想要忽略某些文件或文件夹，我们可以在仓库根目录中添加 <code>.gitignore</code> 文件，可以通过 <code>vim</code> 在命令终端直接编辑: <code>vim .gitignore</code>，也可以使用其它文本编辑器来编辑。<br>比如我想忽略以下内容, 只需把它们复制到 .gitignore 文件中即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line">db.json</span><br><span class="line">*.log</span><br><span class="line">node_modules/</span><br><span class="line">public/</span><br><span class="line">.deploy*/</span><br><span class="line">_multiconfig.yml</span><br></pre></td></tr></table></figure>
+
+<p>修改好 <code>.gitignore</code> 文件后，使用以下命令将它提交到仓库中：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">提交 .gitignore</span></span><br><span class="line">git add .gitignore</span><br><span class="line">git commit -m &quot;Add .gitignore&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="将代码加入-git-跟踪管理"><a href="#将代码加入-git-跟踪管理" class="headerlink" title="将代码加入 git 跟踪管理"></a>将代码加入 git 跟踪管理</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将指定文件加入到修改跟踪区(可以是单个或多个文件)</span></span><br><span class="line">git add file1 file2</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将所有文件加入到修改跟踪区</span></span><br><span class="line">git add .</span><br></pre></td></tr></table></figure>
+<h2 id="提交本地修改"><a href="#提交本地修改" class="headerlink" title="提交本地修改"></a>提交本地修改</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">提交 git 修改跟踪区里的内容</span></span><br><span class="line">git commit -m &quot;human readable comment&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">直接将本地所有的修改添加到跟踪区，并提交</span></span><br><span class="line">git commit -a -m &quot;human readable comment&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="暂存修改的代码"><a href="#暂存修改的代码" class="headerlink" title="暂存修改的代码"></a>暂存修改的代码</h2><p>Git 也为我们提供了一个很好用的功能：暂存还未提交的代码，下面是一些常用操作：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将当前的修改保存到Git栈中，备份当前的工作区内容</span></span><br><span class="line">git stash</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从Git栈中读取最近一次保存的内容，并且恢复工作区的相关内容</span></span><br><span class="line">git stash pop</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">显示Git栈中所有的备份</span></span><br><span class="line">git stash list</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清空Git栈中所有备份</span></span><br><span class="line">git stash clear</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">取出版本号为`stash@&#123;1&#125;`的暂存内容，但并未将此记录从Git栈中清除</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">版本号从 `git stash list` 中得到</span></span><br><span class="line">git stash apply stash@&#123;1&#125; </span><br></pre></td></tr></table></figure>
+
+<h1 id="Git-Patch"><a href="#Git-Patch" class="headerlink" title="Git Patch"></a>Git Patch</h1><p>详情可参考这里：<a href="https://baijiahao.baidu.com/s?id=1627219440390872098&wfr=spider&for=pc">Git命令解析-patch、apply、diff</a> 。</p>
+<h2 id="创建-Patch"><a href="#创建-Patch" class="headerlink" title="创建 Patch"></a>创建 Patch</h2><p>创建好的 patch 会保存在你的当前工作目录下。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成最近的1次commit的patch</span></span><br><span class="line">git format-patch HEAD^</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成最近的2次commit的patch</span></span><br><span class="line"> git format-patch HEAD^^</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成最近的3次commit的patch</span></span><br><span class="line">git format-patch HEAD^^^</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成最近的4次commit的patch</span></span><br><span class="line">git format-patch HEAD^^^^</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成两个commit间的修改的patch (包含两个commit. &lt;r1&gt;和&lt;r2&gt;都是具体的commit号)</span></span><br><span class="line">git format-patch &lt;r1&gt;..&lt;r2&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成单个commit的patch</span></span><br><span class="line">git format-patch -1 &lt;r1&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成某commit之后的所有修改patch（不包含该commit）</span></span><br><span class="line">git format-patch &lt;r1&gt; </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成从根到r1提交的所有patch</span></span><br><span class="line">git format-patch --root &lt;r1&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="应用-Patch"><a href="#应用-Patch" class="headerlink" title="应用 Patch"></a>应用 Patch</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git apply 0001-Add-rspec-to-gemfile.patch</span><br></pre></td></tr></table></figure>
+
+<h1 id="代码恢复"><a href="#代码恢复" class="headerlink" title="代码恢复"></a>代码恢复</h1><p>Git 恢复的核心逻辑：所有已经执行过 git commit 的代码 &#x2F; 版本，永远不会丢，100% 能恢复；未提交的代码，（工作区 &#x2F; 暂存区）也能恢复，只是命令不同。</p>
+<p><em>reflog</em> 是 git 提供的一个内部工具，用于记录对git仓库进行的各种操作。当你想恢复代码时，它可以派上大用场。</p>
+<p>代码恢复常用的一些命令如下 ：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">恢复工作区单个文件（未add）</span></span><br><span class="line">git checkout -- 文件名</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">恢复工作区所有文件（未add）</span></span><br><span class="line">git checkout .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">撤回暂存区单个文件</span></span><br><span class="line">git reset HEAD 文件名</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">撤回暂存区所有文件</span></span><br><span class="line">git reset HEAD .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">找回所有操作记录，获取commit-id（万能）</span></span><br><span class="line">git reflog</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">撤销最近一次commit，保留代码（最安全）</span></span><br><span class="line">git reset --soft HEAD^</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">直接重置到某个 commit-id</span></span><br><span class="line">git reset --hard commit-id</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">恢复被删文件（已追踪）</span></span><br><span class="line">git checkout HEAD -- 文件名</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">恢复被删分支/历史版本</span></span><br><span class="line">git checkout -b 分支名 commit-id</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">恢复被删的Tag（本地）</span></span><br><span class="line">git tag -a 标签名 commit-id -m &quot;备注&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">恢复被删的Tag（推送到远程）</span></span><br><span class="line">git push origin 标签名</span><br></pre></td></tr></table></figure>
+
+<h1 id="成功的-Git-分支模型"><a href="#成功的-Git-分支模型" class="headerlink" title="成功的 Git 分支模型"></a>成功的 Git 分支模型</h1><p>如果你还在探索如何高效的利用分支开发时，这里我强烈推荐下以下两篇文章：</p>
+<p><a href="https://nvie.com/posts/a-successful-git-branching-model/">A successful Git branching model</a></p>
+<p><a href="https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow">Git Feature Branch Workflow</a></p>
+<h1 id="意外发现"><a href="#意外发现" class="headerlink" title="意外发现"></a>意外发现</h1><p>即将发布本文时，意外发现个 <a href="https://github.com/521xueweihan/git-tips">Git的奇技淫巧</a> ，英文版请点这里：<a href="https://github.com/git-tips/tips">Git Tips</a>。</p>
+]]></content>
+      <categories>
+        <category>计算机</category>
+        <category>编程</category>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+        <tag>Git教程</tag>
+        <tag>版本控制</tag>
+        <tag>Git命令</tag>
+        <tag>分支管理</tag>
+        <tag>开发工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>深夜偶遇：程序员1024加班夜归途美好相遇</title>
     <url>/2025/11/20/meet-two-pretty-girls-1024/</url>
     <content><![CDATA[<blockquote>
@@ -307,17 +299,15 @@
 <p><strong>我忍不住偷偷笑了笑，轻轻的从她们身边骑过，不想继续惊扰这份深夜里的小美好！</strong></p>
 ]]></content>
       <categories>
-        <category>生活拾趣</category>
+        <category>拾味人间</category>
         <category>生活随笔</category>
       </categories>
       <tags>
         <tag>程序员生活</tag>
         <tag>深夜故事</tag>
         <tag>都市偶遇</tag>
-        <tag>诗词记录</tag>
         <tag>1024程序员节</tag>
         <tag>加班日常</tag>
-        <tag>夜晚街头</tag>
       </tags>
   </entry>
   <entry>
@@ -365,51 +355,16 @@
 <p>总之，字与字的相遇，如同星与星的交辉——既要距离恰当，又要彼此照亮。 尝试从你名字中的某个字开始，或者选择一种你渴望的气质反向寻找，亦或将你的梦想、你喜欢的东西融入字词，这个过程本身就是在定义你想要表达的世界。也祝您找到自己喜欢的名字！</p>
 ]]></content>
       <categories>
-        <category>个人品牌</category>
-        <category>数字营销</category>
-        <category>杂记</category>
+        <category>计算机</category>
+        <category>实用技巧</category>
       </categories>
       <tags>
         <tag>账号取名</tag>
         <tag>个人品牌</tag>
         <tag>公众号命名</tag>
         <tag>视频号命名</tag>
-        <tag>昵称技巧</tag>
+        <tag>取名技巧</tag>
         <tag>垂直领域账号</tag>
-        <tag>网络昵称</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>小巴西龟越狱记：两次成功&quot;越狱&quot;经历——捉拿“龟”案</title>
-    <url>/2025/12/03/turtle-escape/</url>
-    <content><![CDATA[<p>家中小娃养了2只小巴西龟，没几日，就撒手不管了；老婆倒是上心把它们养了起来，不仅把它们伺候得健健壮壮的，还特意给它们的 <strong>“豪宅”</strong> 种上了绿植。我常开玩笑说：“真羡慕这两只小龟，如果老婆也能像照顾小龟那样无微不至的照顾我，估计我是要经常幸福得在空中漂来漂去啦~”</p>
-<p><img src="two_turtles_01.jpeg"></p>
-<h2 id="龟大胆抢食，龟小胆躲猫猫"><a href="#龟大胆抢食，龟小胆躲猫猫" class="headerlink" title="龟大胆抢食，龟小胆躲猫猫"></a>龟大胆抢食，龟小胆躲猫猫</h2><p>前不久，老婆妈妈病了，需要回老家照顾她妈妈一周，所以照顾小龟的任务就落到了我头上。这一接手，我才算摸清了俩龟的 “脾气”—— 一只胆大包天，我喂面包虫的时候居然敢直接凑过来抢，就索性叫它 <strong>“龟大胆”</strong>；另一只则是个实打实的胆小鬼，我刚靠近盆边，它就跟耗子见了猫似的，“嗖” 一下就缩到角落里躲着，连脑袋都不肯露下，就叫它**“龟小胆”** 吧。</p>
-<h2 id="小龟越狱，急得找老婆"><a href="#小龟越狱，急得找老婆" class="headerlink" title="小龟越狱，急得找老婆"></a>小龟越狱，急得找老婆</h2><p>要说这龟大胆，不仅胆子大，还特爱 “搞事情”—— 总想着越狱！我第一次给它们换完水时，才发现只有一只小龟，心里甚是纳闷：“明明是两只小龟，怎么就少了一只呢？就算换水时它们爬了出来，也不可能钻进下水道，因为地漏都有盖子。“ </p>
-<p>我开始怀疑自己是不是精神恍惚，就打电话向老婆求证，她是否真的养了两只小龟？显然，是真的养了两只！可能是换水前的某一天，<strong>龟大胆</strong>就已经越狱了。我找了一圈未见其踪影，也只好先作罢：“算了，说不定过两天它自己又突然冒出来了。“</p>
-<h2 id="失龟复得，得而又失"><a href="#失龟复得，得而又失" class="headerlink" title="失龟复得，得而又失"></a>失龟复得，得而又失</h2><p>很快到了周末，家里地板也积了层灰，于是我拿起拖把大扫除。拖呀拖，拖呀拖，拖到娃房间的书桌底下时，居然神奇般的发现了<strong>龟大胆</strong>！我异常的高兴，抓起它，将它送进了盆里。恰好老婆这周日会回来，到时候给她个惊喜，证明我没把她养的小龟弄丢！</p>
-<p>周日很快到来，老婆回来了，我第一时间告诉她小龟失而复得，接着绘声绘色地把找小龟的过程讲了一遍。老婆开心地向阳台走去，随后我耳边传来了她的叫喊声：“还是只有一只呀，好动的那只又没影了！“</p>
-<p>“怎么可能呢？养小龟的盆也有那么高，它又是怎么爬出来的呢？难道是通过盛食物的白色平台垫脚爬出来的吗？” 可惜我没能目睹它的作案现场，着实遗憾，因为我很是好奇！</p>
-<p><img src="two_turtles_02.jpeg"></p>
-<h2 id="再次越狱，捉拿“龟”案"><a href="#再次越狱，捉拿“龟”案" class="headerlink" title="再次越狱，捉拿“龟”案"></a>再次越狱，捉拿“龟”案</h2><p>不管怎么说，**龟大胆又越狱了！**这一越狱，就是两个星期！直到今早我又再次拖地，在另外一个小房间里的门口边，我移走一袋东西，准备拖那块地板时，却发现了一块暗暗的东西，一动不动地钉在那儿，不知为何物。出于好奇，我用两个手指头将它捏提起来细看，<strong>它居然是龟大胆！</strong></p>
-<p>我当时心里一紧，担心它是不是挂了，赶紧碰了碰它的四只小爪子，没想到还有反应！我又惊又喜：“好家伙，两周不吃不喝，居然还活着，这生命力也太顽强了！” 我赶紧把它拿到水龙头下冲了冲，给它补点水分，送回盆里后又立马撒了些面包虫。可它没急着吃，反倒慢悠悠爬进水里 —— <strong>估计是憋坏了，先泡个澡 “洗去风尘”</strong> 再说吧~</p>
-<p><img src="two_turtles_03.jpeg"></p>
-<h2 id="加固豪宅，看你咋跑"><a href="#加固豪宅，看你咋跑" class="headerlink" title="加固豪宅，看你咋跑"></a>加固豪宅，看你咋跑</h2><p>经历了这两次 “越狱事件“，我们总算摸清了龟大胆的性子。老婆用了块小盖子，把盆的另一侧牢牢盖住了，这下看你还怎么越狱，嘿嘿！</p>
-<p><img src="two_turtles_04.jpeg"></p>
-]]></content>
-      <categories>
-        <category>生活拾趣</category>
-        <category>宠物饲养</category>
-        <category>家庭趣事</category>
-      </categories>
-      <tags>
-        <tag>巴西龟饲养</tag>
-        <tag>乌龟越狱</tag>
-        <tag>宠物趣事</tag>
-        <tag>家庭生活</tag>
-        <tag>龟龟故事</tag>
-        <tag>养龟经验</tag>
-        <tag>龟龟逃跑</tag>
       </tags>
   </entry>
   <entry>
@@ -431,17 +386,44 @@
 <h3 id="迈克尔・杰克逊与白袜子"><a href="#迈克尔・杰克逊与白袜子" class="headerlink" title="迈克尔・杰克逊与白袜子"></a>迈克尔・杰克逊与白袜子</h3><p>流行音乐之王迈克尔・杰克逊对白袜子情有独钟，他的经典舞步 “月球漫步” 搭配白袜子和黑皮鞋，成为了永恒的经典造型。</p>
 ]]></content>
       <categories>
-        <category>生活拾趣</category>
-        <category>服饰文化</category>
+        <category>拾味人间</category>
+        <category>生活随笔</category>
       </categories>
       <tags>
         <tag>袜子趣闻</tag>
         <tag>上班日常</tag>
         <tag>生活尴尬</tag>
-        <tag>服饰历史</tag>
-        <tag>杨贵妃袜子</tag>
-        <tag>圣诞袜由来</tag>
-        <tag>生活记录</tag>
+        <tag>袜子</tag>
+        <tag>囧事</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>小巴西龟越狱记：两次成功&quot;越狱&quot;经历——捉拿“龟”案</title>
+    <url>/2025/12/03/turtle-escape/</url>
+    <content><![CDATA[<p>家中小娃养了2只小巴西龟，没几日，就撒手不管了；老婆倒是上心把它们养了起来，不仅把它们伺候得健健壮壮的，还特意给它们的 <strong>“豪宅”</strong> 种上了绿植。我常开玩笑说：“真羡慕这两只小龟，如果老婆也能像照顾小龟那样无微不至的照顾我，估计我是要经常幸福得在空中漂来漂去啦~”</p>
+<p><img src="two_turtles_01.jpeg"></p>
+<h2 id="龟大胆抢食，龟小胆躲猫猫"><a href="#龟大胆抢食，龟小胆躲猫猫" class="headerlink" title="龟大胆抢食，龟小胆躲猫猫"></a>龟大胆抢食，龟小胆躲猫猫</h2><p>前不久，老婆妈妈病了，需要回老家照顾她妈妈一周，所以照顾小龟的任务就落到了我头上。这一接手，我才算摸清了俩龟的 “脾气”—— 一只胆大包天，我喂面包虫的时候居然敢直接凑过来抢，就索性叫它 <strong>“龟大胆”</strong>；另一只则是个实打实的胆小鬼，我刚靠近盆边，它就跟耗子见了猫似的，“嗖” 一下就缩到角落里躲着，连脑袋都不肯露下，就叫它**“龟小胆”** 吧。</p>
+<h2 id="小龟越狱，急得找老婆"><a href="#小龟越狱，急得找老婆" class="headerlink" title="小龟越狱，急得找老婆"></a>小龟越狱，急得找老婆</h2><p>要说这龟大胆，不仅胆子大，还特爱 “搞事情”—— 总想着越狱！我第一次给它们换完水时，才发现只有一只小龟，心里甚是纳闷：“明明是两只小龟，怎么就少了一只呢？就算换水时它们爬了出来，也不可能钻进下水道，因为地漏都有盖子。“ </p>
+<p>我开始怀疑自己是不是精神恍惚，就打电话向老婆求证，她是否真的养了两只小龟？显然，是真的养了两只！可能是换水前的某一天，<strong>龟大胆</strong>就已经越狱了。我找了一圈未见其踪影，也只好先作罢：“算了，说不定过两天它自己又突然冒出来了。“</p>
+<h2 id="失龟复得，得而又失"><a href="#失龟复得，得而又失" class="headerlink" title="失龟复得，得而又失"></a>失龟复得，得而又失</h2><p>很快到了周末，家里地板也积了层灰，于是我拿起拖把大扫除。拖呀拖，拖呀拖，拖到娃房间的书桌底下时，居然神奇般的发现了<strong>龟大胆</strong>！我异常的高兴，抓起它，将它送进了盆里。恰好老婆这周日会回来，到时候给她个惊喜，证明我没把她养的小龟弄丢！</p>
+<p>周日很快到来，老婆回来了，我第一时间告诉她小龟失而复得，接着绘声绘色地把找小龟的过程讲了一遍。老婆开心地向阳台走去，随后我耳边传来了她的叫喊声：“还是只有一只呀，好动的那只又没影了！“</p>
+<p>“怎么可能呢？养小龟的盆也有那么高，它又是怎么爬出来的呢？难道是通过盛食物的白色平台垫脚爬出来的吗？” 可惜我没能目睹它的作案现场，着实遗憾，因为我很是好奇！</p>
+<p><img src="two_turtles_02.jpeg"></p>
+<h2 id="再次越狱，捉拿“龟”案"><a href="#再次越狱，捉拿“龟”案" class="headerlink" title="再次越狱，捉拿“龟”案"></a>再次越狱，捉拿“龟”案</h2><p>不管怎么说，**龟大胆又越狱了！**这一越狱，就是两个星期！直到今早我又再次拖地，在另外一个小房间里的门口边，我移走一袋东西，准备拖那块地板时，却发现了一块暗暗的东西，一动不动地钉在那儿，不知为何物。出于好奇，我用两个手指头将它捏提起来细看，<strong>它居然是龟大胆！</strong></p>
+<p>我当时心里一紧，担心它是不是挂了，赶紧碰了碰它的四只小爪子，没想到还有反应！我又惊又喜：“好家伙，两周不吃不喝，居然还活着，这生命力也太顽强了！” 我赶紧把它拿到水龙头下冲了冲，给它补点水分，送回盆里后又立马撒了些面包虫。可它没急着吃，反倒慢悠悠爬进水里 —— <strong>估计是憋坏了，先泡个澡 “洗去风尘”</strong> 再说吧~</p>
+<p><img src="two_turtles_03.jpeg"></p>
+<h2 id="加固豪宅，看你咋跑"><a href="#加固豪宅，看你咋跑" class="headerlink" title="加固豪宅，看你咋跑"></a>加固豪宅，看你咋跑</h2><p>经历了这两次 “越狱事件“，我们总算摸清了龟大胆的性子。老婆用了块小盖子，把盆的另一侧牢牢盖住了，这下看你还怎么越狱，嘿嘿！</p>
+<p><img src="two_turtles_04.jpeg"></p>
+]]></content>
+      <categories>
+        <category>拾味人间</category>
+        <category>家有萌宠</category>
+      </categories>
+      <tags>
+        <tag>巴西龟</tag>
+        <tag>宠物趣事</tag>
+        <tag>养龟</tag>
+        <tag>乌龟逃跑</tag>
       </tags>
   </entry>
 </search>
